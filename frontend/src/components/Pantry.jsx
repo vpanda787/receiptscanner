@@ -1,7 +1,7 @@
 import { useState } from "react";
 import * as api from "../api";
 import { SOON_DAYS } from "../config";
-import { freshness } from "../lib/dates";
+import { daysBetween, freshness, shortDate, utcTodayISO } from "../lib/dates";
 import ItemRow from "./ItemRow";
 import ItemEditor from "./ItemEditor";
 
@@ -17,7 +17,8 @@ export default function Pantry({ items, asOf, loading, onChange, onToast, onGoSc
   async function simulate() {
     setSimulating(true);
     try {
-      await api.simulateDays(3);
+      const offset = Math.max(0, daysBetween(utcTodayISO(), asOf));
+      await api.simulateDays(offset + 3);
       await onChange();
       const res = await api.checkNotifications();
       onToast(
@@ -44,6 +45,9 @@ export default function Pantry({ items, asOf, loading, onChange, onToast, onGoSc
     <section>
       <div className="section-head">
         <div>
+          {daysBetween(utcTodayISO(), asOf) > 0 && (
+            <p className="sim-note">Demo date: {shortDate(asOf)}, {daysBetween(utcTodayISO(), asOf)} days ahead</p>
+          )}
           <h2 className="headline">
             {items.length === 0
               ? "Your pantry is empty"
@@ -51,7 +55,7 @@ export default function Pantry({ items, asOf, loading, onChange, onToast, onGoSc
                 ? "Nothing needs using up right now"
                 : `Use ${soon.length} item${soon.length === 1 ? "" : "s"} in the next ${SOON_DAYS} days`}
           </h2>
-          <p className="muted">Sorted by what expires first.</p>
+          <p className="muted">Sorted by what expires first. Dates are AI estimates; tap an item to correct one.</p>
         </div>
         <div className="actions">
           <button className="btn" onClick={() => setEditing("new")}>Add item</button>

@@ -38,6 +38,9 @@ export default function App() {
 
   useEffect(() => { refresh(); }, [refresh]);
 
+  // Any pantry change makes the current recipe stale.
+  const pantryChanged = useCallback(async () => { setRecipe(null); await refresh(); }, [refresh]);
+
   useEffect(() => {
     if (!toast) return;
     const t = setTimeout(() => setToast(""), 5000);
@@ -71,10 +74,10 @@ export default function App() {
         )}
 
         {tab === "pantry" && (
-          <Pantry items={items} asOf={asOf} loading={loading} onChange={refresh} onToast={setToast} onGoScan={() => setTab("scan")} />
+          <Pantry items={items} asOf={asOf} loading={loading} onChange={pantryChanged} onToast={setToast} onGoScan={() => setTab("scan")} />
         )}
         {tab === "scan" && (
-          <Scan onAdded={refresh} onViewPantry={() => setTab("pantry")} />
+          <Scan items={items} asOf={asOf} onAdded={pantryChanged} onViewPantry={() => setTab("pantry")} />
         )}
         {tab === "cook" && (
           <Cook items={items} asOf={asOf} recipe={recipe} setRecipe={setRecipe} onStart={() => setCooking(true)} />
