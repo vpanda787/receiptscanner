@@ -3,14 +3,23 @@
 Status: `todo` · `doing` · `done` · `cut`. Paste this file when asking any Claude for help.
 Update at every checkpoint.
 
+## Revised timeline (backend finished 2:51 PM; VEYZL side track cut)
+| By | Done when |
+|---|---|
+| 4:30 PM | Scan tested against live API; PR #2 merged; Amplify deploying with VITE_API_BASE |
+| 5:30 PM | Upload → inventory → recipe → voice works on the deployed site |
+| 6:30 PM | Domain live; demo data decided and rehearsed; phone test done |
+| 8:30 PM | Draft Devpost submitted (deadline 10:30 PM) |
+| 2:00 AM | Polish, voice commands, simulated alert rehearsed; video storyboard |
+| 5:30 AM | Feature freeze (unchanged) |
+
 ## Setup (due Sat 2:30 PM)
 | Task | Owner | Status |
 |---|---|---|
-| Shared AWS account, IAM user for Varad, region with Bedrock, model access requested | Advait | doing |
-| Billing alarm at $10; confirm Textract in region | Advait | doing |
-| Public GitHub repo, branch protection on main | Varad | todo |
+| Shared AWS account, IAM user for Varad, region with Bedrock (us-east-1), model access | Advait | done |
+| Billing alarm at $10; confirm Textract in region | Advait | confirm |
+| Public GitHub repo (vpanda787/receiptscanner), branch protection on main | Varad | doing |
 | .gitignore covers .env and AWS keys | Varad | done (in starter) |
-| Connect VEYZL to the repo | Varad | todo |
 | Create Devpost project, invite Advait | Varad | todo |
 | Register domain via MLH GoDaddy Registry offer | Varad | todo |
 | Amplify app connected to repo, pointed at domain | Varad | todo |
@@ -18,13 +27,16 @@ Update at every checkpoint.
 ## Backend (Advait)
 | Task | Status |
 |---|---|
-| S3 bucket + Textract AnalyzeExpense Lambda | doing |
-| Bedrock normalization (name, qty, category, shelf life) | todo |
-| DynamoDB inventory table | todo |
-| API Gateway + CORS, endpoint list handed to Varad by 6 PM | todo |
-| Recipe Lambda (soonest-expiring first, steps as array) | todo |
-| EventBridge daily check + SNS email; simulate-days endpoint | todo |
-| /speak endpoint (Polly → MP3) | todo — confirm owner at 6 PM sync |
+| S3 bucket + Textract AnalyzeExpense Lambda | done |
+| Bedrock normalization (name, qty, category, shelf life) | done |
+| DynamoDB inventory table | done |
+| API Gateway + CORS, all endpoints live (2:51 PM, ahead of 6 PM) | done |
+| Recipe Lambda (soonest-expiring first, steps as array) | done |
+| EventBridge daily check + SNS email; simulate-days endpoint | done |
+| /speak endpoint (Polly → MP3) | done |
+| Test real crumpled receipts end to end through the app | todo (with Varad) |
+| PATCH accepts expirationDate + edited | done |
+| API Gateway throttling (public, unauthenticated API) | todo |
 
 ## Frontend (Varad)
 | Task | Status |
@@ -37,16 +49,14 @@ Update at every checkpoint.
 | "Simulate 3 days later" button | done (starter, mock) |
 | Cook mode: step-by-step, next/back/repeat, speaks each step | done (starter, browser voice) |
 | Voice commands via SpeechRecognition (bonus) | done (starter) |
-| Swap mock → live API, reconcile contract | todo (6 PM) |
-| Polly via /speak live | todo (after endpoint exists) |
+| Swap mock → live API, reconcile contract | todo (now) |
+| Polly via /speak live | todo (now) |
 | Demo account pre-loaded with inventory | todo |
+| Editable expiration dates + "estimated" label (optional, recommended) | todo |
+| Freshness bars on a fixed 7-day window | todo |
 
-## VEYZL (Varad)
-| Task | Status |
-|---|---|
-| PR #1: app with AI expiration dates, no oversight — capture audit flag | todo |
-| PR #2: editable dates + disclaimer + `edited` flag — capture passing check | todo |
-| Screenshots of both saved to docs/veyzl/ | todo |
+## Side tracks
+VEYZL: cut (couldn't detect the Bedrock AI in the repo). Still entering SideShift, MLH Commit Fellowship, MLH GoDaddy domain.
 
 ## Submission (Varad, with Advait)
 | Task | Due | Status |
