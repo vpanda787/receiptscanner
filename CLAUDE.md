@@ -7,7 +7,7 @@ a hands-free voice walkthrough of that recipe. ("Shelf Life" is a working name; 
 
 ## Team and ownership
 - **Varad (me, using this Claude Code session):** everything in `frontend/`, the voice
-  walkthrough, VEYZL evidence, Devpost write-up, and demo video.
+  walkthrough, Devpost write-up, and demo video.
 - **Advait:** everything behind the API in `backend/` — S3, Textract, Bedrock, DynamoDB,
   Lambda, API Gateway, EventBridge, SNS, Polly. Do not edit `backend/` unless I explicitly ask.
 
@@ -15,7 +15,7 @@ a hands-free voice walkthrough of that recipe. ("Shelf Life" is a working name; 
 - Sat 6:00 PM: backend endpoints handed over; swap mock → live API
 - Sat 9:00 PM: upload → inventory → recipe works in the deployed app
 - Sat 10:30 PM: draft Devpost submitted (mandatory)
-- Sun 2:00 AM: Polly walkthrough + simulated alert working; first VEYZL fix merged
+- Sun 2:00 AM: Polly walkthrough + simulated alert working
 - Sun 5:30 AM: feature freeze — bug fixes only after this
 - Sun 10:00 AM: Devpost hard lock (aim for 9:30)
 
@@ -49,13 +49,6 @@ When a task threatens a checkpoint, say so and suggest what to cut. Do not gold-
 - `frontend/src/voice/commands.js`: optional voice commands (next / back / repeat / stop) via the
   browser's SpeechRecognition (Chrome/Edge/Safari). Results are ignored while audio is playing so
   the app doesn't hear itself.
-
-## VEYZL sequencing — read before touching item editing
-The plan is: PR #1 ships expiration dates as AI-estimated values the user cannot edit and with no
-disclaimer. We expect the VEYZL audit to flag that (AI output with no human oversight). PR #2 is the
-fix: editable expiration dates, an "estimated" disclaimer, and setting `edited: true` on manual changes.
-**Do not add expiration-date editing or the disclaimer until I ask for PR #2.** The exact spec for the
-fix is in docs/VEYZL.md.
 
 ## Conventions
 - `main` is protected. Work on a branch and open a PR; never push to main directly.

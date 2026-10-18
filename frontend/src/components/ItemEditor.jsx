@@ -3,8 +3,6 @@ import * as api from "../api";
 import { CATEGORIES } from "../config";
 import { shortDate } from "../lib/dates";
 
-// NOTE (VEYZL plan): expiration dates are intentionally read-only here in PR #1.
-// PR #2 makes them editable and adds the "estimated" disclaimer — see docs/VEYZL.md.
 export default function ItemEditor({ item, onClose, onSaved }) {
   const isNew = !item;
   const [name, setName] = useState(item?.name ?? "");
