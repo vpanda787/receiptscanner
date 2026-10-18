@@ -6,7 +6,7 @@ const SHELF_DAYS = { produce: 5, dairy: 10, meat: 3, seafood: 2, bakery: 5, pant
 let nextId = 100;
 const id = () => `itm_${nextId++}`;
 
-const realToday = todayISO();
+const realToday = new Date().toISOString().slice(0, 10);
 let offsetDays = 0;
 const asOf = () => addDays(realToday, offsetDays);
 
@@ -76,7 +76,7 @@ export async function processReceipt() {
     ["Sourdough bread", "SAN FRAN SRDGH LOAF", 1, "loaf", "bakery", 5],
   ].map(([name, rawText, quantity, unit, category, days]) => ({
     itemId: id(), name, rawText, quantity, unit, category,
-    purchaseDate: asOf(), expirationDate: addDays(asOf(), days), edited: false, nutrition: null,
+    purchaseDate: realToday, expirationDate: addDays(realToday, days), edited: false, nutrition: null,
   }));
   store.push(...parsed);
   return { items: parsed };
@@ -129,7 +129,7 @@ export async function checkNotifications() {
 
 export async function simulateDays(days) {
   await wait(200);
-  offsetDays += Number(days);
+  offsetDays = Number(days);
   return { offsetDays, asOf: asOf() };
 }
 

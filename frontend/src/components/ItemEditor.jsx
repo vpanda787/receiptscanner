@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import * as api from "../api";
 import { CATEGORIES } from "../config";
-import { shortDate } from "../lib/dates";
 
 export default function ItemEditor({ item, onClose, onSaved }) {
   const isNew = !item;
@@ -9,6 +8,7 @@ export default function ItemEditor({ item, onClose, onSaved }) {
   const [quantity, setQuantity] = useState(item?.quantity ?? 1);
   const [unit, setUnit] = useState(item?.unit ?? "");
   const [category, setCategory] = useState(item?.category ?? "produce");
+  const [expirationDate, setExpirationDate] = useState(item?.expirationDate ?? "");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const firstField = useRef(null);
@@ -31,7 +31,7 @@ export default function ItemEditor({ item, onClose, onSaved }) {
         await api.addItem(fields);
         onSaved(`Added ${fields.name}.`);
       } else {
-        await api.updateItem(item.itemId, fields);
+        await api.updateItem(item.itemId, expirationDate ? { ...fields, expirationDate } : fields);
         onSaved(`Saved ${fields.name}.`);
       }
     } catch (err) {
@@ -80,8 +80,14 @@ export default function ItemEditor({ item, onClose, onSaved }) {
           </select>
         </label>
 
-        {!isNew && (
-          <p className="expires">Expires {shortDate(item.expirationDate)}</p>
+        {isNew ? (
+          <p className="hint">We'll estimate the expiration date from typical shelf life. You can change it after adding.</p>
+        ) : (
+          <label className="field">
+            <span>Expiration date</span>
+            <input type="date" value={expirationDate} onChange={(e) => setExpirationDate(e.target.value)} />
+            <small className="hint">Estimated from typical shelf life. Check the package and trust your senses, and change it if it's wrong.</small>
+          </label>
         )}
 
         {n && (

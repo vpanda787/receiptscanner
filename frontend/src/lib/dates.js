@@ -13,6 +13,10 @@ export function toISODate(date) {
   return `${y}-${m}-${d}`;
 }
 
+export function utcTodayISO() {
+  return new Date().toISOString().slice(0, 10);
+}
+
 export function todayISO() {
   return toISODate(new Date());
 }
@@ -34,8 +38,7 @@ export function shortDate(iso) {
 // Human label + urgency level for an item relative to "today" (asOf).
 export function freshness(item, asOf, soonDays) {
   const left = daysBetween(asOf, item.expirationDate);
-  const total = Math.max(1, daysBetween(item.purchaseDate, item.expirationDate));
-  const remaining = Math.min(1, Math.max(0, left / total));
+  const remaining = Math.min(1, Math.max(0, left / 7)); // bars use a fixed one-week scale
   let level = "fresh";
   if (left < 0) level = "expired";
   else if (left <= soonDays) level = "soon";

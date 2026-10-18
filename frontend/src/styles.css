@@ -162,6 +162,8 @@ button, input, select { font: inherit; color: inherit; }
   border-radius: var(--radius-s); background: var(--wash);
 }
 .field-row { display: flex; gap: 0.75rem; }
+.hint { font-size: var(--step--1); color: var(--muted); margin: 0.75rem 0 0; }
+.field .hint { margin-top: 0.125rem; }
 .expires { margin: 1rem 0 0; font-weight: 700; }
 .nutrition { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem; margin: 1rem 0 0; padding: 0.75rem; background: var(--wash); border-radius: var(--radius-s); }
 .nutrition div { display: flex; flex-direction: column; }
@@ -248,3 +250,16 @@ button, input, select { font: inherit; color: inherit; }
   .cook-controls { grid-template-columns: 1fr 1fr; }
   .cook-controls .btn-cta { grid-column: 1 / -1; grid-row: 1; }
 }
+
+/* Scan review: checkbox per scanned item */
+.parsed li { display: block; }
+.parsed-row { display: grid; grid-template-columns: auto 1fr 1fr auto; gap: 1rem; align-items: baseline; cursor: pointer; }
+.parsed-row input { inline-size: 1.125rem; block-size: 1.125rem; accent-color: var(--basil); }
+.parsed-row.off .raw, .parsed-row.off .parsed-name, .parsed-row.off .muted { opacity: 0.5; text-decoration: line-through; }
+.scan-status { margin-top: 0.75rem; }
+@media (max-width: 34rem) {
+  .parsed-row { grid-template-columns: auto 1fr; gap: 0.125rem 0.75rem; }
+  .parsed-row .raw, .parsed-row .parsed-name, .parsed-row .muted { grid-column: 2; }
+}
+
+.sim-note { display: inline-block; margin: 0 0 0.5rem; padding: 0.125rem 0.625rem; border-radius: 999px; font-size: var(--step--1); font-weight: 700; color: var(--yolk); border: 1px solid var(--yolk); }
